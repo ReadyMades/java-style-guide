@@ -4,6 +4,20 @@
   <option name="VISIBILITY" value="private" />
   <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="30" />
   <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="30" />
+  <option name="IMPORT_LAYOUT_TABLE">
+    <value>
+      <package name="java" withSubpackages="true" static="false" />
+      <package name="javax" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.r_mades" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.equeo" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="true" />
+    </value>
+  </option>
   <option name="RIGHT_MARGIN" value="100" />
   <option name="JD_KEEP_EMPTY_LINES" value="false" />
   <AndroidXmlCodeStyleSettings>
