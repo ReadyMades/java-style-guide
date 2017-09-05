@@ -1,110 +1,107 @@
 # Java Style Guide
-Set of styles, copied from https://github.com/twitter/commons
+Набор советов, основанных на
+[Twitter java styleguide](https://github.com/twitter/commons/blob/master/src/java/com/twitter/common/styleguide.md)
 
+Данный набор правил предоставлен для того чтобы обеспечить более чистый код.
+Следование этому гайду может иногда мешать читаемости кода или создавать
+костыли. Все нужно использовать в меру, но в любом случае, старайтесь писать
+наиболее читабельный код.
 
-The intention of this guide is to provide a set of conventions that encourage good code.
-It is the distillation of many combined man-years of software engineering and Java development
-experience.  While some suggestions are more strict than others, you should always practice good
-judgement.
+## Список для чтения
 
-If following the guide causes unnecessary hoop-jumping or otherwise less-readable code,
-*readability trumps the guide*.  However, if the more 'readable' variant comes with
-perils or pitfalls, readability may be sacrificed.
-
-In general, much of our style and conventions mirror the
-[Code Conventions for the Java Programming Language](http://www.oracle.com/technetwork/java/codeconvtoc-136057.html)
-and [Google's Java Style Guide](https://google.github.io/styleguide/javaguide.html).
-
-[TOC]
-
-## Recommended reading
 - [Effective Java](http://www.amazon.com/Effective-Java-Edition-Joshua-Bloch/dp/0321356683)
 
 - [Java Concurrency in Practice](http://jcip.net/)
 
-- [Code Complete 2](http://www.stevemcconnell.com/cc.htm)<br />
-  Not java-specific, but a good handbook for programming best-practices.
+- [Code Complete 2](http://www.stevemcconnell.com/cc.htm)
+
 
 ## Coding style
 
-### Formatting
+### Форматирование
 
-#### Use line breaks wisely
-There are generally two reasons to insert a line break:
+#### Используй переносы строк мудро
 
-1. Your statement exceeds the column limit.
+Есть две причины для использование дополнительного переноса строки
 
-2. You want to logically separate a thought.<br />
-Writing code is like telling a story.  Written language constructs like chapters, paragraphs,
-and punctuation (e.g. semicolons, commas, periods, hyphens) convey thought hierarchy and
-separation.  We have similar constructs in programming languages; you should use them to your
-advantage to effectively tell the story to those reading the code.
+1. Длина выражения превышает лимит символов
 
-#### Indent style
-We use the "one true brace style" ([1TBS](http://en.wikipedia.org/wiki/Indent_style#Variant:_1TBS)).
-Indent size is 2 columns.
+2. Нужно логически отделить части кода друг от друга
+
+Написание кода подобно написанию литературного текста. 
+Текст должен передавать смысл через главы, параграфы, знаки препинания.
+Так же и код должен нести некий смысл и нужно подчеркнуть этот для 
+человека, который будет читать этот код, используя те же самые конструкции.
+
+#### Отступы
+Мы используем "one true brace style" 
+([1TBS](http://en.wikipedia.org/wiki/Indent_style#Variant:_1TBS)).
+Размер отступа - 2 пробела.
 
     :::java
-    // Like this.
+    // Вот так.
     if (x < 0) {
       negative(x);
     } else {
       nonnegative(x);
     }
 
-    // Not like this.
+    // Не так.
     if (x < 0)
       negative(x);
 
-    // Also not like this.
+    // И не так.
     if (x < 0) negative(x);
 
-Continuation indent is 4 columns.  Nested continuations may add 4 columns or 2 at each level.
+Отступы для длинных выражений - 4 пробела. Каждый уровень вложенности 
+добавляет 2 или 4 пробела.
 
     :::java
-    // Bad.
-    //   - Line breaks are arbitrary.
-    //   - Scanning the code makes it difficult to piece the message together.
+    // Плохо.
+    //   - Переносы строк в произвольных местах
+    //   - При чтении тяжело сложить в голове все части и понять, 
+    // 	    что же будет выведено в сообщении
     throw new IllegalStateException("Failed to process request" + request.getId()
         + " for user " + user.getId() + " query: '" + query.getText()
         + "'");
 
-    // Good.
-    //   - Each component of the message is separate and self-contained.
-    //   - Adding or removing a component of the message requires minimal reformatting.
+    // Хорошо.
+    //   - Каждый компонент отделен и самодостаточен
+    //   - Добавить или удалить компонент легко, не требует дополнительного форматирования
     throw new IllegalStateException("Failed to process"
         + " request " + request.getId()
         + " for user " + user.getId()
         + " query: '" + query.getText() + "'");
 
-Don't break up a statement unnecessarily.
+Не разбивайте выражения без необходимости.
 
     :::java
-    // Bad.
+    // Плохо.
     final String value =
         otherValue;
 
-    // Good.
+    // Хорошо.
     final String value = otherValue;
 
-Method declaration continuations.
+Пример описания метода.
 
     :::java
-    // Sub-optimal since line breaks are arbitrary and only filling lines.
+    // Так себе, потому что переносы в случайных местах создают 
+    // впечатление что это сделано просто для заполнения места.
     String downloadAnInternet(Internet internet, Tubes tubes,
         Blogosphere blogs, Amount<Long, Data> bandwidth) {
       tubes.download(internet);
       ...
     }
 
-    // Acceptable.
+    // Приемлимо.
     String downloadAnInternet(Internet internet, Tubes tubes, Blogosphere blogs,
         Amount<Long, Data> bandwidth) {
       tubes.download(internet);
       ...
     }
 
-    // Nicer, as the extra newline gives visual separation to the method body.
+    // Лучше, так как дополнительная строка четко отделяет тело метода.
     String downloadAnInternet(Internet internet, Tubes tubes, Blogosphere blogs,
         Amount<Long, Data> bandwidth) {
 
@@ -112,7 +109,8 @@ Method declaration continuations.
       ...
     }
 
-    // Also acceptable, but may be awkward depending on the column depth of the opening parenthesis.
+    // Приемлимо, но может выглядеть ужасно, 
+    // если открывающая скобка находится далеко от начала строки.
     public String downloadAnInternet(Internet internet,
                                      Tubes tubes,
                                      Blogosphere blogs,
@@ -121,7 +119,7 @@ Method declaration continuations.
       ...
     }
 
-    // Preferred for easy scanning and extra column space.
+    // Хорошо. Легко понять все параметры. Дополнительная строка четко отделяет тело метода.
     public String downloadAnInternet(
         Internet internet,
         Tubes tubes,
@@ -135,67 +133,62 @@ Method declaration continuations.
 ##### Chained method calls
 
     :::java
-    // Bad.
-    //   - Line breaks are based on line length, not logic.
+    // Плохо.
+    //   - Переносы строки основаны на длине строки, а не на логике
     Iterable<Module> modules = ImmutableList.<Module>builder().add(new LifecycleModule())
         .add(new AppLauncherModule()).addAll(application.getModules()).build();
 
-    // Better.
-    //   - Calls are logically separated.
-    //   - However, the trailing period logically splits a statement across two lines.
+    // Лучше.
+    //   - Вызовы логически разделены
+    //   - Тем не менее, последняя точка в строке создает помеху для быстрого добавления нового вызова
     Iterable<Module> modules = ImmutableList.<Module>builder().
         add(new LifecycleModule()).
         add(new AppLauncherModule()).
         addAll(application.getModules()).
         build();
 
-    // Good.
-    //   - Method calls are isolated to a line.
-    //   - The proper location for a new method call is unambiguous.
+    // Хорошо.
+    //   - Вызовы логически разделены
+    //   - Правильное расположение нового вызова очевидно
     Iterable<Module> modules = ImmutableList.<Module>builder()
         .add(new LifecycleModule())
         .add(new AppLauncherModule())
         .addAll(application.getModules())
         .build();
 
-#### No tabs
-An oldie, but goodie.  We've found tab characters to cause more harm than good.
+#### Лимит ширины в 100 столбцов
+Мы предпочитаем использовать такой лимит для того, чтобы не было слишком 
+много продолжающихся строк(continuation lines), но тем не менее можно 
+было бы легко уместить две вкладки редактора на одном мониторе.
 
-#### 100 column limit
-You should follow the convention set by the body of code you are working with.
-We tend to use 100 columns for a balance between fewer continuation lines but still easily
-fitting two editor tabs side-by-side on a reasonably-high resolution display.
+#### CamelCase для типов, camelCase для переменных, UPPER_SNAKE для констант
 
-#### CamelCase for types, camelCase for variables, UPPER_SNAKE for constants
+#### Не использовать пробелы в конце строки
 
-#### No trailing whitespace
-Trailing whitespace characters, while logically benign, add nothing to the program.
-However, they do serve to frustrate developers when using keyboard shortcuts to navigate code.
+Пробелы невидимы, не добавляют ничего в программу, но тем не менее, они 
+мешают при навигации по коду при помощи клавиатуры.
 
-### Field, class, and method declarations
+### Объявления полей, классов и методов
 
-##### Modifier order
+##### Порядок модификаторов
 
-We follow the [Java Language Specification](http://docs.oracle.com/javase/specs/) for modifier
-ordering (sections
-[8.1.1](http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.1.1),
-[8.3.1](http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.3.1) and
-[8.4.3](http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.4.3)).
+Мы используем 
+[Java Language Specification](http://docs.oracle.com/javase/specs/).
 
     :::java
-    // Bad.
+    // Плохо.
     final volatile private String value;
 
-    // Good.
+    // Хорошо.
     private final volatile String value;
 
-### Variable naming
+### Именование переменных
 
-#### Extremely short variable names should be reserved for instances like loop indices.
+#### Слишком короткие имена зарезервированы для индексов в цикле и подобных вещах.
 
     :::java
-    // Bad.
-    //   - Field names give little insight into what fields are used for.
+    // Плохо.
+    //   - Имя поля не дает понимания, для чего преднозначено поле
     class User {
       private final int a;
       private final String m;
@@ -203,7 +196,7 @@ ordering (sections
       ...
     }
 
-    // Good.
+    // Хорошо.
     class User {
       private final int ageInYears;
       private final String maidenName;
@@ -211,110 +204,115 @@ ordering (sections
       ...
     }
 
-#### Include units in variable names
+#### Использование единиц измерения в именах
 
     :::java
-    // Bad.
+    // Плохо.
     long pollInterval;
     int fileSize;
 
-    // Good.
+    // Хорошо.
     long pollIntervalMs;
     int fileSizeGb.
 
-    // Better.
-    //   - Unit is built in to the type.
-    //   - The field is easily adaptable between units, readability is high.
+    // Лучше.
+    //   - Единица измерения определена в типе
+    //   - Легко можно изменить единицу измерения
+    //   - Читабельность высокая
     Amount<Long, Time> pollInterval;
     Amount<Integer, Data> fileSize;
 
-#### Don't embed metadata in variable names
-A variable name should describe the variable's purpose.  Adding extra information like scope and
-type is generally a sign of a bad variable name.
+#### Не используй метаданные в именах переменных
+Имя переменной должно описывать предназначение. 
+Добавление лишней информации, такой как область видимости или уровень 
+вложенности считается плохим стилем.
 
-Avoid embedding the field type in the field name.
+Избегай использования типов в имени переменной
 
     :::java
-    // Bad.
+    // Плохо.
     Map<Integer, User> idToUserMap;
     String valueString;
 
-    // Good.
+    // Хорошо.
     Map<Integer, User> usersById;
     String value;
 
-Also avoid embedding scope information in a variable.  Hierarchy-based naming suggests that a class
-is too complex and should be broken apart.
+Также избегай информации о вложенности в переменной. 
+Использование такого именования предпологает что класс слишком 
+большой/сложный. Такой класс должен быть разделен на несколько других 
+классов
+
 
     :::java
-    // Bad.
+    // Плохо.
     String _value;
     String mValue;
 
-    // Good.
+    // Хорошо.
     String value;
 
-### Space pad operators and equals.
+### Окружай пробелами операции 
 
     :::java
-    // Bad.
-    //   - This offers poor visual separation of operations.
+    // Плохо.
+    //   - Этот код тяжело читать
     int foo=a+b+1;
 
-    // Good.
+    // Хорошо.
     int foo = a + b + 1;
 
-### Be explicit about operator precedence
-Don't make your reader open the
-[spec](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html) to confirm,
-if you expect a specific operation ordering, make it obvious with parenthesis.
+### Используй явный порядок в операциях.
+
+Не заставляй читателя открывать 
+[спецификацию](http://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html)
+чтобы он убедился в правильности этого кода. Используй скобки для 
+определения порядка
 
     :::java
-    // Bad.
+    // Плохо.
     return a << 8 * n + 1 | 0xFF;
 
-    // Good.
+    // Хорошо.
     return (a << (8 * n) + 1) | 0xFF;
 
-It's even good to be *really* obvious.
+Лучше быть *очевидным*
 
     :::java
     if ((values != null) && (10 > values.size())) {
       ...
     }
 
-### Documentation
+### Документация
 
-The more visible a piece of code is (and by extension - the farther away consumers might be),
-the more documentation is needed.
+Чем больше людей проходит через код, тем больше ему нужна документация.
 
-#### "I'm writing a report about..."
-Your elementary school teacher was right - you should never start a statement this way.
-Likewise, you shouldn't write documentation this way.
+#### "Я пишу отчет о..."
+Никогда не начинайте писать предложения подобным образом.
+Аналогично, не пишите так документацию.
 
     :::java
-    // Bad.
+    // Плохо.
     /**
-     * This is a class that implements a cache.  It does caching for you.
+     * Это класс для кэширования.
      */
     class Cache {
       ...
     }
 
-    // Good.
+    // Хорошо.
     /**
-     * A volatile storage for objects based on a key, which may be invalidated and discarded.
+     * Гибкое  хранилище для объектов с ключом, которое может быть очищено.
      */
     class Cache {
       ...
     }
 
-#### Documenting a class
-Documentation for a class may range from a single sentence
-to paragraphs with code examples. Documentation should serve to disambiguate any conceptual
-blanks in the API, and make it easier to quickly and *correctly* use your API.
-A thorough class doc usually has a one sentence summary and, if necessary,
-a more detailed explanation.
+#### Документирование класса
+Документация класса может варьироваться от одного предложения до 
+нескольких параграфов с примерами кода.
+Документация нужна для того, чтобы убрать все пробелы при использовании 
+API класса, чтобы пользователь вашего класса мог быстро и *корректно* его использовать.
 
     :::java
     /**
@@ -327,14 +325,15 @@ a more detailed explanation.
       ...
     }
 
-#### Documenting a method
-A method doc should tell what the method *does*.  Depending on the argument types, it may
-also be important to document input format.
+#### Документирование метода
+Документация метода должна описывать что метод *делает*. В зависимости 
+от типов аргументов и их количества, нужно так же задокументировать 
+параметры.
 
     :::java
-    // Bad.
-    //   - The doc tells nothing that the method declaration didn't.
-    //   - This is the 'filler doc'.  It would pass style checks, but doesn't help anybody.
+    // Плохо.
+    //   - Документация не говорит ничего нового, все сказано в названии метода
+    //   - Это 'filler doc'. Код пройдет все проверки, но не поможет никому.
     /**
      * Splits a string.
      *
@@ -343,9 +342,9 @@ also be important to document input format.
      */
     List<String> split(String s);
 
-    // Better.
-    //   - We know what the method splits on.
-    //   - Still some undefined behavior.
+    // Лучше.
+    //   - Документация говорит, по какому сиволу будет разделена входная строка
+    //   - Есть случаи, которые документация не покарывает
     /**
      * Splits a string on whitespace.
      *
@@ -354,8 +353,8 @@ also be important to document input format.
      */
     List<String> split(String s);
 
-    // Great.
-    //   - Covers yet another edge case.
+    // Хорошо.
+    //   - Документация покрывает частные случаи.
     /**
      * Splits a string on whitespace.  Repeated whitespace characters are collapsed.
      *
@@ -364,12 +363,13 @@ also be important to document input format.
      */
     List<String> split(String s);
 
-#### Be professional
-We've all encountered frustration when dealing with other libraries, but ranting about it doesn't
-do you any favors.  Suppress the expletives and get to the point.
+#### Будь профессионалом
+Все испытывают разочарование, когда доходит до использования чужих 
+библиотек. Но если так случилось - не нойте, это не показывает вас в 
+хорошем свете.
 
     :::java
-    // Bad.
+    // Плохо.
     // I hate xml/soap so much, why can't it do this for me!?
     try {
       userId = Integer.parseInt(xml.getField("id"));
@@ -377,7 +377,7 @@ do you any favors.  Suppress the expletives and get to the point.
       ...
     }
 
-    // Good.
+    // Хорошо.
     // TODO(Jim): Tuck field validation away in a library.
     try {
       userId = Integer.parseInt(xml.getField("id"));
@@ -385,7 +385,7 @@ do you any favors.  Suppress the expletives and get to the point.
       ...
     }
 
-#### Don't document overriding methods (usually)
+#### Не документируй переопределенные методы (обычно)
 
     :::java
     interface Database {
@@ -397,8 +397,8 @@ do you any favors.  Suppress the expletives and get to the point.
       String getVersion();
     }
 
-    // Bad.
-    //   - Overriding method doc doesn't add anything.
+    // Плохо.
+    //   - Документация не добавляет ничего нового.
     class PostgresDatabase implements Database {
       /**
        * Gets the installed version of the database.
@@ -411,14 +411,14 @@ do you any favors.  Suppress the expletives and get to the point.
       }
     }
 
-    // Good.
+    // Хорошо.
     class PostgresDatabase implements Database {
       @Override
       public int getVersion();
     }
 
-    // Great.
-    //   - The doc explains how it differs from or adds to the interface doc.
+    // Отлично.
+    //   - Документация описывает отличие переопределенного метода от метода родителя.
     class TwitterDatabase implements Database {
       /**
        * Semantic version number.
@@ -431,43 +431,34 @@ do you any favors.  Suppress the expletives and get to the point.
       }
     }
 
-#### Use javadoc features
+#### Используй фичи javadoc
 
-##### No author tags
-Code can change hands numerous times in its lifetime, and quite often the original author of a
-source file is irrelevant after several iterations.  We find it's better to trust commit
-history and `OWNERS` files to determine ownership of a body of code.
+##### Используй тег @author
+Код может менятся довольно часто разными людьми. При изменении проверь 
+документацию к классу и добавь туда свое имя с тегом @author.
 
-### Imports
+### Импорты
 
-#### Import ordering
-Imports are grouped by top-level package, with blank lines separating groups.  Static imports are
-grouped in the same way, in a section below traditional imports.
+#### Порядок импортов
 
     :::java
     import java.*
     import javax.*
 
-    import scala.*
+    import all_other_imports
 
-    import com.*
-
-    import net.*
-
-    import org.*
-
-    import com.twitter.*
+    import com.r_mades.*
+    
+    import com.equeo.*
 
     import static *
 
-#### No wildcard imports
-Wildcard imports make the source of an imported class less clear.  They also tend to hide a high
-class [fan-out](http://en.wikipedia.org/wiki/Coupling_(computer_programming)#Module_coupling).<br />
-*See also [texas imports](#stay-out-of-texas)*
+#### Не используй wildcard импорты
+Wildcard импорт делают источник испортированного класса неясным
 
     :::java
-    // Bad.
-    //   - Where did Foo come from?
+    // Плохо.
+    //   - Откуда взялся класс Foo?
     import com.twitter.baz.foo.*;
     import com.twitter.*;
 
@@ -475,7 +466,7 @@ class [fan-out](http://en.wikipedia.org/wiki/Coupling_(computer_programming)#Mod
       ...
     }
 
-    // Good.
+    // Хорошо.
     import com.twitter.baz.foo.BazFoo;
     import com.twitter.Foo;
 
@@ -483,13 +474,14 @@ class [fan-out](http://en.wikipedia.org/wiki/Coupling_(computer_programming)#Mod
       ...
     }
 
-### Use annotations wisely
+### Используй аннотации мудро
 
-#### @Nullable
-By default - disallow `null`.  When a variable, parameter, or method return value may be `null`,
-be explicit about it by marking
-[@Nullable](http://code.google.com/p/jsr-305/source/browse/trunk/ri/src/main/java/javax/annotation/Nullable.java?r=24).
-This is advisable even for fields/methods with private visibility.
+#### @Nullable (jsr305.jar)
+По умолчанию - не используй `null`. Когда переменная, параметр, или 
+возвращаемое значение метода может быть `null`, указывая явно, добавляя 
+аннотацию [@Nullable](https://github.com/findbugsproject/findbugs/blob/master/findbugs/src/java/edu/umd/cs/findbugs/annotations/Nullable.java).
+
+Указывай аннотацию и для private/protected методов
 
     :::java
     class Database {
@@ -505,65 +497,24 @@ This is advisable even for fields/methods with private visibility.
       }
     }
 
-#### @VisibleForTesting
-Sometimes it makes sense to hide members and functions in general, but they may still be required
-for good test coverage.  It's usually preferred to make these package-private and tag with
-[@VisibleForTesting](http://docs.guava-libraries.googlecode.com/git-history/v11.0.2/javadoc/com/google/common/annotations/VisibleForTesting.html)
-to indicate the purpose for visibility.
+### Используй интерфейсы
+Интерфейсы разделяют функционал от реализации, позволяя использовать 
+несколько реализаций без изменения класса, который использует этот 
+интерфейс.
 
-Constants are a great example of things that are frequently exposed in this way.
+Так же использование интерфейсов позволяет изолировать пакеты: 
+интерфейсы доступны публично, реализации - package private.
 
-    :::java
-    // Bad.
-    //   - Any adjustments to field names need to be duplicated in the test.
-    class ConfigReader {
-      private static final String USER_FIELD = "user";
-
-      Config parseConfig(String configData) {
-        ...
-      }
-    }
-    public class ConfigReaderTest {
-      @Test
-      public void testParseConfig() {
-        ...
-        assertEquals(expectedConfig, reader.parseConfig("{user: bob}"));
-      }
-    }
-
-    // Good.
-    //   - The test borrows directly from the same constant.
-    class ConfigReader {
-      @VisibleForTesting static final String USER_FIELD = "user";
-
-      Config parseConfig(String configData) {
-        ...
-      }
-    }
-    public class ConfigReaderTest {
-      @Test
-      public void testParseConfig() {
-        ...
-        assertEquals(expectedConfig,
-            reader.parseConfig(String.format("{%s: bob}", ConfigReader.USER_FIELD)));
-      }
-    }
-
-### Use interfaces
-Interfaces decouple functionality from implementation, allowing you to use multiple implementations
-without changing consumers.
-Interfaces are a great way to isolate packages - provide a set of interfaces, and keep your
-implementations package private.
-
-Many small interfaces can seem heavyweight, since you end up with a large number of source files.
-Consider the pattern below as an alternative.
+Много маленьких интерфейсов могут выглядеть слишком тяжеловесно, 
+поскольку увеличивают число файлов с кодом. Используйте следующий 
+паттерн как альтернативу.
 
     :::java
     interface FileFetcher {
       File getFile(String name);
 
-      // All the benefits of an interface, with little source management overhead.
-      // This is particularly useful when you only expect one implementation of an interface.
+      // Все преимуществ интерфесов с небольшим оверхедом в исходниках
+      // Это так же используется, когда ожидается одна реализация у интерфейса
       static class HdfsFileFetcher implements FileFetcher {
         @Override File getFile(String name) {
           ...
@@ -571,21 +522,21 @@ Consider the pattern below as an alternative.
       }
     }
 
-#### Leverage or extend existing interfaces
-Sometimes an existing interface allows your class to easily 'plug in' to other related classes.
-This leads to highly [cohesive](http://en.wikipedia.org/wiki/Cohesion_(computer_science)) code.
+#### Использование существующих интерфейсов
+Иногда использование существующего интерфейса позволяет легко подключить
+класс к другим соответствующим классам.
 
     :::java
-    // An unfortunate lack of consideration.  Anyone who wants to interact with Blobs will need to
-    // write specific glue code.
+    // Любой, кто захочет использовать этот класс, должен будет написать
+    // прослойку для взаимодействия с массивом
     class Blobs {
       byte[] nextBlob() {
         ...
       }
     }
 
-    // Much better.  Now the caller can easily adapt this to standard collections, or do more
-    // complex things like filtering.
+    // Намного лучше. Теперь клиент может использовать стандартный код 
+    // для взаимодействия с коллециями
     class Blobs implements Iterable<byte[]> {
       @Override
       Iterator<byte[]> iterator() {
@@ -593,8 +544,8 @@ This leads to highly [cohesive](http://en.wikipedia.org/wiki/Cohesion_(computer_
       }
     }
 
-Warning - don't bend the definition of an existing interface to make this work.  If the interface
-doesn't conceptually apply cleanly, it's best to avoid this.
+Однако, если интерфейс концептуально не подходит, не стоит его 
+привязывать к коду насильно.
 
 ## Writing testable code
 Writing unit tests doesn't have to be hard.  You can make it easy for yourself if you keep
